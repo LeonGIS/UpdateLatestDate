@@ -92,8 +92,9 @@ def main(argv):
         if not row[0] in dictIDs:
           dictIDs[row[0]] = row[1]
      
-    ## Update feature class
-    pOutfields = [options.outidfield, options.outdatefield]
+    ## Update feature class...
+    ## Hardcoded field for sign replacement program
+    pOutfields = [options.outidfield, options.outdatefield, "REPLACESTATUS"]
     edit = arcpy.da.Editor(options.fcworkspace)
     
     edit.startEditing(False, True)
@@ -110,8 +111,13 @@ def main(argv):
         for fcrow in fc_cursor:
           if fcrow[1] != updatedate:
             fcrow[1] = updatedate
+            ## Specific update for sign replacement program
+            if fcrow[2] == "Scheduled":
+              fcrow[2] = "Completed"
             fc_cursor.updateRow(fcrow)
             logging.info('Update ID ' + featid)
+         
+
       fc_cursor.reset()
     edit.stopOperation()
     edit.stopEditing(True)
