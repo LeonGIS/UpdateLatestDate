@@ -113,7 +113,7 @@ def main(argv):
             fcrow[1] = updatedate
             ## Specific update for sign replacement program
             if fcrow[2] == "Scheduled":
-              fcrow[2] = "Completed"
+              fcrow[2] = "Complete"
             fc_cursor.updateRow(fcrow)
             logging.info('Update ID ' + featid)
          
